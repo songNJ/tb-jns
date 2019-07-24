@@ -13,7 +13,7 @@
         </li>
       </ul>
 
-      <div class="record" v-if="!searchValue">
+      <div class="record" v-show="!searchValue">
         <div class="hot-tip">
           <i class="tip-icon"></i>
           大家都在搜
