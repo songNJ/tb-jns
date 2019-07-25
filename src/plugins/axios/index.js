@@ -4,7 +4,7 @@ import Vue from 'vue'
 
 // 基本参数
 let options = {
-  baseURL: '/api/ssp/',
+  baseURL: '/api/jns/tb',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8'
@@ -48,7 +48,7 @@ function request (method, url, data, config) {
       'osImage': ''
     },
     params: {
-      access_token: sessionStorage.getItem('access_token'),
+      // access_token: sessionStorage.getItem('access_token'),
       ...data
     }
   }
@@ -68,11 +68,6 @@ function request (method, url, data, config) {
   }).then(resp => {
     // 判断条件是否符合
     if (resp.data.returnCode === '0') {
-      return resp.data
-    }
-
-    // 钱盒token失效
-    if (resp.data.errorNo === 'SSP-VAS1009') {
       return resp.data
     }
 
