@@ -12,19 +12,38 @@
 
     <div class="search-record" v-show="isSearch">
       <ul class="suggest" v-show="searchValue">
-        <li class="suggest-list" v-for="(item, index) in suggestList" :key="index">
+        <li class="suggest-list" v-for="(item, index) in suggestList" :key="index" @click="chooseItem(item.name)">
           {{item.name}}
         </li>
       </ul>
 
       <div class="record" v-show="!searchValue">
+        <div class="his-tip">
+          <div class="his-left">
+            <i class="tip-icon"></i>
+            搜索历史
+          </div>
+
+          <div class="his-right" @click="clearHis">
+            清除记录
+          </div>
+
+        </div>
+
+        <ul class="history">
+          <div class="title"></div>
+          <li class="his-list" v-for="(item, index) in hisList" :key="index">
+            {{item}}
+          </li>
+        </ul>
+
         <div class="hot-tip">
           <i class="tip-icon"></i>
           大家都在搜
         </div>
 
         <ul class="hot-search">
-          <li class="hot-list" v-for="(item, index) in hotList" :key="index">
+          <li class="hot-list" v-for="(item, index) in hotList" :key="index" @click="chooseItem(item.name)">
             <i class="hot-icon">{{index+1}}</i>
 
             <p class="hot-title">{{item.name}}</p>
@@ -51,6 +70,7 @@ export default {
     return {
       searchValue: this.value,
       isSearch: false,
+      hisList: [1, 2, 3, 4, 5, 6],
       hotList: [
         {
           name: '长安十二时辰'
@@ -88,6 +108,18 @@ export default {
     search () {
       this.isSearch = false
       this.$emit('search', this.searchValue)
+    },
+    saveHis () {
+      let hisList = localStorage.getItem('hisList')
+      localStorage.setItem('hisList', this.hisList)
+    },
+    chooseItem (value) {
+      this.searchValue = value
+      this.isSearch = false
+      this.$emit('search', this.searchValue)
+    },
+    clearHis () {
+      this.hisList = []
     }
   }
 }
@@ -139,6 +171,47 @@ export default {
     z-index: 999 !important;
     box-sizing: border-box;
     background-color: rgba(255,255,255,1);
+
+    .his-tip {
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      height: 44px;
+      padding: 10px;
+    }
+
+    .his-left {
+      display: flex;
+      align-items: center;
+      line-height: 24px;
+      font-size: 14px;
+      font-style: normal;
+      color: #909090;
+    }
+
+    .his-right {
+      color: #e72916;
+      font-size: 13px;
+    }
+
+    .history {
+      display: flex;
+      flex-wrap:wrap ;
+      width: 100%;
+    }
+
+    .his-list {
+      box-sizing: border-box;
+      padding-left: 10px;
+      flex: 1;
+      flex-basis:45%;
+      color: #222;
+      font-size: 14px;
+      height: 29px;
+      line-height: 29px;
+    }
 
     .hot-tip {
       box-sizing: border-box;

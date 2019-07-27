@@ -113,7 +113,6 @@ export default {
       })
     },
     search () {
-      alert(1)
       this.pageNo = 1
       this.finished = false
       this.searchData = []
