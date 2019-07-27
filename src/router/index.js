@@ -8,12 +8,20 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '/test',
-      name: 'test',
+      path: '/index',
+      name: 'index',
       meta: {
-        title: 'test'
+        title: '主页'
       },
-      component: () => import('../views/test.vue')
+      component: () => import('../views/index.vue')
+    },
+    {
+      path: '/search',
+      name: 'search',
+      meta: {
+        title: 'search'
+      },
+      component: () => import('../views/search.vue')
     }
   ]
 })

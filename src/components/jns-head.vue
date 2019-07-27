@@ -2,12 +2,16 @@
   <div class="head">
     <div class="search">
       <img src="../assets/image/logo.png" alt="">
-      <input type="search" v-model="searchValue" @focus="isSearch=true">
-      <p>搜索</p>
+      <input type="search"
+      v-model="searchValue"
+        @focus="isSearch=true"
+        @input="query"
+        @search="search">
+      <p @click="search">搜索</p>
     </div>
 
     <div class="search-record" v-show="isSearch">
-      <ul class="suggest" v-if="searchValue">
+      <ul class="suggest" v-show="searchValue">
         <li class="suggest-list" v-for="(item, index) in suggestList" :key="index">
           {{item.name}}
         </li>
@@ -36,9 +40,16 @@
 </template>
 <script>
 export default {
+  props: {
+    value: String
+  },
+  model: {
+    prop: 'value',
+    event: 'input'
+  },
   data () {
     return {
-      searchValue: null,
+      searchValue: this.value,
       isSearch: false,
       hotList: [
         {
@@ -68,6 +79,15 @@ export default {
           name: '杀破狼'
         }
       ]
+    }
+  },
+  methods: {
+    query (event) {
+      this.$emit('input', event.target.value)
+    },
+    search () {
+      this.isSearch = false
+      this.$emit('search', this.searchValue)
     }
   }
 }
@@ -116,7 +136,7 @@ export default {
 
   .search-record {
     position: relative;
-    z-index: 9999 !important;
+    z-index: 999 !important;
     box-sizing: border-box;
     background-color: rgba(255,255,255,1);
 
