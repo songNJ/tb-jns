@@ -22,6 +22,14 @@ const router = new Router({
         title: 'search'
       },
       component: () => import('../views/search.vue')
+    },
+    {
+      path: '/login',
+      name: 'login',
+      meta: {
+        title: 'login'
+      },
+      component: () => import('../views/login.vue')
     }
   ]
 })

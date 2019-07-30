@@ -1,13 +1,32 @@
 <template>
   <div class="head">
     <div class="search">
-      <img src="../assets/image/logo.png" alt="">
-      <input type="search"
-      v-model="searchValue"
-        @focus="isSearch=true"
-        @input="query"
-        @search="search">
-      <p @click="search">搜索</p>
+      <img class="logo" src="../assets/image/logo.png" alt="">
+
+      <div class="right" v-if="!isShow">
+        <div class="search-box" @click="searchBox">
+          <van-icon class-prefix="search-icon" name="extra" />
+        </div>
+
+        <div class="his-box">
+          <van-icon class-prefix="his-icon" name="extra" />
+        </div>
+
+        <div class="self-box" @click="$router.push({name:'login'})">
+          <img src="https://img.alicdn.com/tfs/TB10zdbXL5TBuNjSspmXXaDRVXa-44-44.png" alt="">
+        </div>
+      </div>
+
+      <div class="right-all" v-if="isShow">
+        <input type="search"
+          v-focus
+          v-model="searchValue"
+          @focus="isSearch=true"
+          @input="query"
+          @search="search">
+        <p v-show="searchValue" @click="search">搜索</p>
+        <p v-show="!searchValue" @click="isShow=false">取消</p>
+      </div>
     </div>
 
     <div class="search-record" v-show="isSearch">
@@ -59,6 +78,14 @@
 </template>
 <script>
 export default {
+  directives: {
+    focus: {
+    // 指令的定义
+      inserted: function (el) {
+        el.focus()
+      }
+    }
+  },
   props: {
     value: String
   },
@@ -68,6 +95,7 @@ export default {
   },
   data () {
     return {
+      isShow: false,
       searchValue: this.value,
       isSearch: false,
       hisList: [1, 2, 3, 4, 5, 6],
@@ -110,8 +138,8 @@ export default {
       this.$emit('search', this.searchValue)
     },
     saveHis () {
-      let hisList = localStorage.getItem('hisList')
-      localStorage.setItem('hisList', this.hisList)
+      // let hisList = localStorage.getItem('hisList')
+      // localStorage.setItem('hisList', this.hisList)
     },
     chooseItem (value) {
       this.searchValue = value
@@ -120,6 +148,9 @@ export default {
     },
     clearHis () {
       this.hisList = []
+    },
+    searchBox () {
+      this.isShow = true
     }
   }
 }
@@ -127,22 +158,79 @@ export default {
 <style lang="less" scope>
 .head {
   height: 44px;
+
+  @font-face {
+    font-family: 'iconfont';
+    src: url('../assets/ttf/iconfont.ttf') format('truetype');
+  }
+
+  .search-icon {
+    font-family: "iconfont";
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    color: rgb(64,64,64);
+  }
+
+  .search-icon-extra::before {
+    font-size:23px;
+    content: "\e83a";
+  }
+
+  .his-icon {
+    font-family: "iconfont";
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    color: rgb(64,64,64);
+  }
+
+  .his-icon-extra::before {
+    font-size:24px;
+    content: "\e83b";
+  }
+
   .search{
     box-sizing: border-box;
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    // align-items: center;
     height: 44px;
     padding: 0 15px;
 
-    img {
+    .logo {
       width: 84px;
+      align-self:center;
     }
+  }
+
+  .right {
+    margin-right: -10px;
+    display: flex;
+
+    img {
+      width: 22px;
+    }
+
+    div {
+      padding:0 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .right-all {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     input {
       box-sizing: border-box;
       border:0;
       // width: 100%;
       flex:1;
+      width:200px;
       height: 30px;
       margin-left: 15px;
       border-radius: 100px;
