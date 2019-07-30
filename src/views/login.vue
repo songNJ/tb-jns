@@ -2,11 +2,16 @@
   <div class="login">
     <div class="nav">
       <van-icon name="arrow-left" @click="$router.go(-1)"></van-icon>
-      <p>快捷登录</p>
+      <p>账号登录</p>
     </div>
 
     <div class="content">
       <ul>
+        <li>
+          <label for="username">
+            <input name="username" type="text">
+          </label>
+        </li>
         <li></li>
       </ul>
     </div>
@@ -47,6 +52,12 @@ export default {}
       height: 44px;
       border: 1px solid #e9e9e9;
       border-radius: 44px;
+      margin-bottom: 10px;
+      padding-left: 15px;
+    }
+
+    input {
+      border: none;
     }
   }
 }
