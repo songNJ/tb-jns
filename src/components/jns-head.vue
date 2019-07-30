@@ -37,7 +37,7 @@
       </ul>
 
       <div class="record" v-show="!searchValue">
-        <div class="his-tip">
+        <div class="his-tip" v-if="hisList.length">
           <div class="his-left">
             <i class="tip-icon"></i>
             搜索历史
@@ -97,8 +97,8 @@ export default {
     return {
       isShow: false,
       searchValue: this.value,
+      hisList: JSON.parse(localStorage.getItem('hisList') || '[]'),
       isSearch: false,
-      hisList: [1, 2, 3, 4, 5, 6],
       hotList: [
         {
           name: '长安十二时辰'
@@ -136,10 +136,25 @@ export default {
     search () {
       this.isSearch = false
       this.$emit('search', this.searchValue)
+      this.saveHis()
     },
     saveHis () {
-      // let hisList = localStorage.getItem('hisList')
-      // localStorage.setItem('hisList', this.hisList)
+      console.log(localStorage.getItem('hisList'))
+      if (!this.searchValue) {
+        return
+      }
+      if (!localStorage.getItem('hisList')) {
+        localStorage.setItem('hisList', JSON.stringify([]))
+      }
+      let hisList = JSON.parse(localStorage.getItem('hisList') || '[]')
+      this.hisList = [...hisList]
+      if (this.hisList.length < 6) {
+        this.hisList.unshift(this.searchValue)
+      } else {
+        this.hisList.pop()
+        this.hisList.unshift(this.searchValue)
+      }
+      localStorage.setItem('hisList', JSON.stringify(this.hisList))
     },
     chooseItem (value) {
       this.searchValue = value
@@ -148,6 +163,7 @@ export default {
     },
     clearHis () {
       this.hisList = []
+      localStorage.removeItem('hisList')
     },
     searchBox () {
       this.isShow = true
