@@ -1,9 +1,11 @@
 <template>
   <div class="head">
+    <!-- 头部 -->
     <div class="search">
-      <img class="logo" src="../assets/image/logo.png" alt="">
-
-      <div class="right" v-if="!isShow">
+      <!-- logo -->
+      <img class="logo" src="../assets/image/logo.png" alt="logo" @click="$router.push({name:'index'})">
+      <!-- 无输入框头部 -->
+      <div class="right" v-if="!myIsShow">
         <div class="search-box" @click="searchBox">
           <van-icon class-prefix="search-icon" name="extra" />
         </div>
@@ -16,26 +18,27 @@
           <img src="https://img.alicdn.com/tfs/TB10zdbXL5TBuNjSspmXXaDRVXa-44-44.png" alt="">
         </div>
       </div>
-
-      <div class="right-all" v-if="isShow">
+      <!-- 输入框头部 -->
+      <div class="right-all" v-if="myIsShow">
         <input type="search"
-          v-focus
+          v-focus="focusState"
           v-model="searchValue"
-          @focus="isSearch=true"
           @input="query"
+          @focus="myShowWrap=true"
           @search="search">
         <p v-show="searchValue" @click="search">搜索</p>
-        <p v-show="!searchValue" @click="isShow=false">取消</p>
+        <p v-show="!searchValue" @click="myIsShow=false;myShowWrap=false">取消</p>
       </div>
     </div>
 
-    <div class="search-record" v-show="isSearch">
+    <div class="search-wrap" v-show="myShowWrap">
+      <!-- 模糊搜索推荐列表 -->
       <ul class="suggest" v-show="searchValue">
         <li class="suggest-list" v-for="(item, index) in suggestList" :key="index" @click="chooseItem(item.name)">
           {{item.name}}
         </li>
       </ul>
-
+      <!-- 历史记录及热门推荐 -->
       <div class="record" v-show="!searchValue">
         <div class="his-tip" v-if="hisList.length">
           <div class="his-left">
@@ -70,7 +73,7 @@
         </ul>
       </div>
 
-      <div class="search-close" @click="isSearch=false">
+      <div class="search-close" @click="myShowWrap=false">
         关闭
       </div>
     </div>
@@ -80,14 +83,23 @@
 export default {
   directives: {
     focus: {
-    // 指令的定义
-      inserted: function (el) {
-        el.focus()
+      inserted: function (el, binding) {
+        if (binding.value) {
+          el.focus()
+        }
       }
     }
   },
   props: {
-    value: String
+    value: String,
+    isShow: {
+      type: Boolean,
+      default: false
+    },
+    showWrap: {
+      type: Boolean,
+      default: false
+    }
   },
   model: {
     prop: 'value',
@@ -95,10 +107,11 @@ export default {
   },
   data () {
     return {
-      isShow: false,
+      myIsShow: this.isShow,
+      myShowWrap: this.showWrap,
+      focusState: false,
       searchValue: this.value,
       hisList: JSON.parse(localStorage.getItem('hisList') || '[]'),
-      isSearch: false,
       hotList: [
         {
           name: '长安十二时辰'
@@ -129,17 +142,63 @@ export default {
       ]
     }
   },
+  // isShow及showWrap双向绑定
+  watch: {
+    isShow (val) {
+      this.myIsShow = val
+    },
+    myIsShow (val) {
+      this.$emit('show-change', val)
+    },
+    showWrap (val) {
+      this.myShowWrap = val
+    },
+    myShowWrap (val) {
+      this.$emit('wrap-change', val)
+    }
+  },
   methods: {
+    /**
+     * 搜索框input事件，用以实现父组件v-model
+     * @method query
+     * @param {Event} event 搜索框input事件
+     */
     query (event) {
       this.$emit('input', event.target.value)
+      this.getHisList(event.target.value)
     },
+    getHisList (value) {
+      const params = {
+
+      }
+      this.$Http.querySearchList(params).then(resp => {
+        this.suggestList = resp
+      })
+    },
+    /**
+     * 搜索事件方法
+     * @method search
+     */
     search () {
-      this.isSearch = false
+      this.myShowWrap = false
+      if (!this.searchValue) {
+        this.myIsShow = false
+        return
+      }
       this.$emit('search', this.searchValue)
+      this.$router.replace({
+        name: 'search',
+        query: { searchValue: this.searchValue }
+      })
       this.saveHis()
     },
+    /**
+     * 点击搜索时将记录存入浏览器localstorage
+     * @method saveHis
+     */
     saveHis () {
       console.log(localStorage.getItem('hisList'))
+      // 判空
       if (!this.searchValue) {
         return
       }
@@ -148,25 +207,41 @@ export default {
       }
       let hisList = JSON.parse(localStorage.getItem('hisList') || '[]')
       this.hisList = [...hisList]
-      if (this.hisList.length < 6) {
-        this.hisList.unshift(this.searchValue)
-      } else {
-        this.hisList.pop()
-        this.hisList.unshift(this.searchValue)
+      // 去重
+      this.hisList = this.hisList.filter(item => {
+        if (item !== this.searchValue) {
+          return item
+        }
+      })
+      // 将搜索的值提升到最前
+      this.hisList.unshift(this.searchValue)
+      // 保持长度为6
+      if (this.hisList.length > 6) {
+        this.hisList = this.hisList.slice(0, 6)
       }
       localStorage.setItem('hisList', JSON.stringify(this.hisList))
     },
+    /**
+     * 选择热门推荐或历史记录时执行搜索
+     * @method chooseItem
+     * @param {String} value 选择的历史记录或热门推荐剧名
+     */
     chooseItem (value) {
       this.searchValue = value
       this.isSearch = false
       this.$emit('search', this.searchValue)
     },
+    /**
+     * 清除历史记录方法
+     * @method clearHis
+     */
     clearHis () {
       this.hisList = []
       localStorage.removeItem('hisList')
     },
     searchBox () {
-      this.isShow = true
+      this.focusState = true
+      this.myIsShow = true
     }
   }
 }
@@ -270,7 +345,7 @@ export default {
     }
   }
 
-  .search-record {
+  .search-wrap {
     position: relative;
     z-index: 999 !important;
     box-sizing: border-box;

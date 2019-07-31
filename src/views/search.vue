@@ -2,6 +2,7 @@
   <div class="search">
     <Search
       v-model="searchValue"
+      :isShow="isShow"
       @search="search">
     </Search>
     <van-list v-model="loading" :finished="finished" finished-text="-- 已加载完全部数据 --" @load="onLoad">
@@ -23,6 +24,7 @@ export default {
   },
   data () {
     return {
+      isShow: false,
       loading: false,
       finished: false,
       pageNo: 1,
@@ -101,10 +103,6 @@ export default {
       this.$Http.querySearchList(params).then(resp => {
         this.searchData.push(...resp.searchData)
         this.loading = false
-        // if (resp.searchData.length < this.pageSize) {
-        //   this.finished = true
-        //   return
-        // }
         if (this.searchData.length >= 50) {
           this.finished = true
           return
@@ -120,6 +118,11 @@ export default {
     },
     onLoad () {
       this.querySearchListFn()
+    }
+  },
+  mounted () {
+    if (this.searchValue) {
+      this.isShow = true
     }
   }
 }
