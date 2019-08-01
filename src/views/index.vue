@@ -2,9 +2,11 @@
   <div class="index">
     <Search @search="search" v-model="searchValue"></Search>
     <Nav :value="value" @change="change"></Nav>
-    <Swipe></Swipe>
-    <van-notice-bar color="#1989fa" background="#ecf9ff" mode="closeable" left-icon="volume-o">通知内容</van-notice-bar>
-    <Item></Item>
+    <van-list>
+      <Swipe></Swipe>
+      <van-notice-bar color="#1989fa" background="#ecf9ff" mode="closeable" left-icon="volume-o">通知内容</van-notice-bar>
+      <Item></Item>
+    </van-list>
   </div>
 </template>
 <script>
@@ -40,7 +42,9 @@ export default {
 </script>
 <style lang="less">
 .index {
-  height: calc(100vh - 51px);
-  overflow: auto;
+  .van-list {
+    height: calc(100vh - 94px);
+    overflow: auto;
+  }
 }
 </style>

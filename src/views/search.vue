@@ -129,7 +129,9 @@ export default {
 </script>
 <style lang="less">
 .search {
-  height: calc(100vh - 51px);
-  overflow: auto;
+  .van-list {
+    height: calc(100vh - 45px);
+    overflow: auto;
+  }
 }
 </style>

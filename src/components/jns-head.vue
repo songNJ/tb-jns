@@ -20,12 +20,17 @@
       </div>
       <!-- 输入框头部 -->
       <div class="right-all" v-if="myIsShow">
-        <input type="search"
+        <div class="search-inp">
+          <input type="search"
+          ref="search"
           v-focus="focusState"
           v-model="searchValue"
           @input="query"
           @focus="myShowWrap=true"
           @search="search">
+
+          <van-icon v-if="searchValue" class-prefix="clear-icon" name="extra" @click="clearValue"/>
+        </div>
         <p v-show="searchValue" @click="search">搜索</p>
         <p v-show="!searchValue" @click="myIsShow=false;myShowWrap=false">取消</p>
       </div>
@@ -54,7 +59,7 @@
 
         <ul class="history">
           <div class="title"></div>
-          <li class="his-list" v-for="(item, index) in hisList" :key="index">
+          <li class="his-list" v-for="(item, index) in hisList" :key="index" @click="chooseItem(item)">
             {{item}}
           </li>
         </ul>
@@ -129,32 +134,13 @@ export default {
           name: '长安十二时辰'
         }
       ],
-      suggestList: [
-        {
-          name: '杀破狼'
-        },
-        {
-          name: '杀破狼'
-        },
-        {
-          name: '杀破狼'
-        }
-      ]
+      suggestList: []
     }
   },
   // isShow及showWrap双向绑定
   watch: {
     isShow (val) {
       this.myIsShow = val
-    },
-    myIsShow (val) {
-      this.$emit('show-change', val)
-    },
-    showWrap (val) {
-      this.myShowWrap = val
-    },
-    myShowWrap (val) {
-      this.$emit('wrap-change', val)
     }
   },
   methods: {
@@ -165,14 +151,18 @@ export default {
      */
     query (event) {
       this.$emit('input', event.target.value)
-      this.getHisList(event.target.value)
+      if (event.target.value) {
+        this.getHisList(event.target.value)
+      } else {
+        this.suggestList = []
+      }
     },
     getHisList (value) {
       const params = {
-
+        searchValue: value
       }
-      this.$Http.querySearchList(params).then(resp => {
-        this.suggestList = resp
+      this.$Http.getHisList(params).then(resp => {
+        this.suggestList = resp.list
       })
     },
     /**
@@ -186,7 +176,7 @@ export default {
         return
       }
       this.$emit('search', this.searchValue)
-      this.$router.replace({
+      this.$router.push({
         name: 'search',
         query: { searchValue: this.searchValue }
       })
@@ -228,8 +218,8 @@ export default {
      */
     chooseItem (value) {
       this.searchValue = value
-      this.isSearch = false
-      this.$emit('search', this.searchValue)
+      // this.myShowWrap = false
+      this.search()
     },
     /**
      * 清除历史记录方法
@@ -242,6 +232,10 @@ export default {
     searchBox () {
       this.focusState = true
       this.myIsShow = true
+    },
+    clearValue () {
+      this.searchValue = ''
+      this.$refs.search.focus()
     }
   }
 }
@@ -280,6 +274,21 @@ export default {
     font-size:24px;
     content: "\e83b";
   }
+  .clear-icon {
+    position: absolute;
+    top:2px;
+    right: 3px;
+    font-family: "iconfont";
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    color: rgb(200,200,200);
+  }
+
+  .clear-icon-extra::before {
+    font-size:22px;
+    content: "\e607";
+  }
 
   .search{
     box-sizing: border-box;
@@ -312,36 +321,45 @@ export default {
   }
 
   .right-all {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
 
+    .search-inp {
+      flex:1;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
     input {
       box-sizing: border-box;
       border:0;
-      // width: 100%;
-      flex:1;
-      width:200px;
+      width: 100%;
       height: 30px;
+      flex:1;
       margin-left: 15px;
       border-radius: 100px;
       font-family: "Microsoft YaHei",SimHei,helvetica,arial,verdana,tahoma,sans-serif;
       font-size: 14px;
       background: rgba(0,0,0,.06);
-      text-indent: 30px;
+      padding-left: 30px;
+      padding-right: 27px;
       outline: 0;
       background:url("../assets/image/search.png") 6px 6px no-repeat;
       background-size:17px;
       background-color: rgba(0,0,0,.06)
     }
 
-    input[type="search"]::-webkit-search-cancel-button{
-      margin-right: 10px;
+    input[type=search]::-webkit-search-cancel-button{
+      -webkit-appearance: none;
     }
 
     p {
       margin-left: 15px;
       font-size: 16px;
+      white-space:nowrap;
     }
   }
 
