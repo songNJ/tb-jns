@@ -7,6 +7,10 @@ Vue.use(Router)
 
 const router = new Router({
   routes: [
+    { 
+      path: '/', 
+      redirect: '/index' //重定向到登录页面 
+    }, 
     {
       path: '/index',
       name: 'index',
@@ -30,6 +34,14 @@ const router = new Router({
         title: 'login'
       },
       component: () => import('../views/login.vue')
+    },
+    {
+      path: '/pagedetail',
+      name: 'pagedetail',
+      meta: {
+        title: 'pagedetail'
+      },
+      component: () => import('../views/page-detail.vue')
     }
   ]
 })

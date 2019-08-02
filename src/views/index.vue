@@ -45,6 +45,8 @@ export default {
   .van-list {
     height: calc(100vh - 94px);
     overflow: auto;
+    -webkit-overflow-scrolling:touch;
+    overflow-scrolling:touch;
   }
 }
 </style>

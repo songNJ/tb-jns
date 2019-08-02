@@ -2,14 +2,23 @@
   <div class="jns-nav">
     <div class="nav-main-list" v-show="isMain">
       <ul class="nav-main">
-        <li v-for="(item, index) in navTypeList" :key="index" :class="current(item.navType)" @click="change(item.navType)">
+        <li
+          v-for="(item, index) in navTypeList"
+          :key="index"
+          :class="current(item.navType)"
+          @click="change(item.navType)"
+        >
           {{item.typeName}}
           <i class="bottom-icon" v-if="value===item.navType"></i>
         </li>
       </ul>
 
       <div class="more-icon">
-        <img src="https://img.alicdn.com/tfs/TB18vFaXGmWBuNjy1XaXXXCbXXa-44-44.png" alt="" @click="isMain=false">
+        <img
+          src="https://img.alicdn.com/tfs/TB18vFaXGmWBuNjy1XaXXXCbXXa-44-44.png"
+          alt
+          @click="isMain=false"
+        />
       </div>
     </div>
 
@@ -17,7 +26,12 @@
       <ul class="nav-all">
         <li v-for="(item, index) in navTypeListAll" :key="index" @click="change(item.navType)">
           {{item.typeName}}
-          <img v-if="index===5" src="https://img.alicdn.com/tfs/TB1qJ0cXKuSBuNjy1XcXXcYjFXa-44-44.png" alt="" @click="isMain=true">
+          <img
+            v-if="index===5"
+            src="https://img.alicdn.com/tfs/TB1qJ0cXKuSBuNjy1XcXXcYjFXa-44-44.png"
+            alt
+            @click="isMain=true"
+          />
         </li>
       </ul>
     </div>
@@ -29,7 +43,7 @@ export default {
   computed: {
     navTypeListAll () {
       let a = [...this.navTypeList]
-      a.splice(5, 0, {navType: ''})
+      a.splice(5, 0, { navType: '' })
       console.log(a)
       return a
     }
@@ -113,8 +127,8 @@ export default {
 <style lang="less">
 .jns-nav {
   img {
-    width:22px;
-    align-self:flex-start;
+    width: 22px;
+    align-self: flex-start;
   }
 
   .nav-main-list {
@@ -129,13 +143,27 @@ export default {
       display: flex;
       margin-left: 15px;
       overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      overflow-scrolling: touch;
       font-size: 16px;
+      &::-webkit-scrollbar-track {
+        //    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.1);
+        background-color: transparent;
+      }
 
+      &::-webkit-scrollbar {
+        background-color: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        //    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: transparent;
+      }
       li {
         position: relative;
         width: 32px;
         height: 25px;
-        position:relative;
+        position: relative;
         margin-right: 30px;
         white-space: nowrap;
 
@@ -143,7 +171,7 @@ export default {
           position: absolute;
           width: 19px;
           height: 2px;
-          background: #2692FF;
+          background: #2692ff;
           bottom: 0;
           left: 50%;
           margin-left: -9.5px;
@@ -151,7 +179,7 @@ export default {
       }
 
       .current {
-        color: #2692FF;
+        color: #2692ff;
       }
 
       &::-webkit-scrollbar {
@@ -169,14 +197,19 @@ export default {
 
     &::after {
       display: block;
-      content: '';
+      content: "";
       position: absolute;
       width: 16%;
       height: 100%;
       right: 48px;
       bottom: 0;
       pointer-events: none;
-      background-image: linear-gradient(-90deg,#FFF 0,rgba(255,255,255,.9) 30%,rgba(255,255,255,0) 100%);
+      background-image: linear-gradient(
+        -90deg,
+        #fff 0,
+        rgba(255, 255, 255, 0.9) 30%,
+        rgba(255, 255, 255, 0) 100%
+      );
     }
   }
 
@@ -185,7 +218,7 @@ export default {
     display: flex;
     padding: 14px 0 0 0;
 
-    .nav-all{
+    .nav-all {
       display: flex;
       flex-wrap: wrap;
       margin-right: 0;
@@ -197,6 +230,7 @@ export default {
         margin: 0 15px;
         width: 32px;
         height: 39px;
+        white-space: nowrap;
       }
     }
   }

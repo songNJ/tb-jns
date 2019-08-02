@@ -6,9 +6,9 @@
     </div>
 
     <ul class="item-content">
-      <li class="item-main" v-for="item in 6" :key="item">
+      <li class="item-main" v-for="item in 6" :key="item" @click="$router.push({name:'pagedetail',query:{id:item.id}})">
         <div class="item-img">
-          <img src="//liangcang-material.alicdn.com/prod/upload/dfae1d60c49642e79c1267b373486649.gif?x-oss-process=image/resize,w_750/format,webp/interlace,1" alt="">
+          <img src="http://liangcang-material.alicdn.com/prod/upload/dfae1d60c49642e79c1267b373486649.gif" alt="">
           <div class="img-icon">独播</div>
           <div class="img-desc">更新至29集</div>
           <!-- <div class="img-score">9.0</div> -->

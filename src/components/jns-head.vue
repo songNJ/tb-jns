@@ -26,7 +26,7 @@
           v-focus="focusState"
           v-model="searchValue"
           @input="query"
-          @focus="myShowWrap=true"
+          @focus="isShowWrap"
           @search="search">
 
           <van-icon v-if="searchValue" class-prefix="clear-icon" name="extra" @click="clearValue"/>
@@ -151,18 +151,28 @@ export default {
      */
     query (event) {
       this.$emit('input', event.target.value)
+      this.suggestList = []
       if (event.target.value) {
         this.getHisList(event.target.value)
       } else {
-        this.suggestList = []
+        this.myShowWrap = true
       }
     },
+    /**
+     * 模糊搜索功能，input事件触发
+     * @method getHisList
+     * @param {String} value input事件返回的value
+     */
     getHisList (value) {
       const params = {
         searchValue: value
       }
+      this.myShowWrap = false
       this.$Http.getHisList(params).then(resp => {
         this.suggestList = resp.list
+        if (this.suggestList.length) {
+          this.myShowWrap = true
+        }
       })
     },
     /**
@@ -171,6 +181,7 @@ export default {
      */
     search () {
       this.myShowWrap = false
+      // 判空
       if (!this.searchValue) {
         this.myIsShow = false
         return
@@ -187,16 +198,10 @@ export default {
      * @method saveHis
      */
     saveHis () {
-      console.log(localStorage.getItem('hisList'))
-      // 判空
-      if (!this.searchValue) {
-        return
-      }
       if (!localStorage.getItem('hisList')) {
         localStorage.setItem('hisList', JSON.stringify([]))
       }
-      let hisList = JSON.parse(localStorage.getItem('hisList') || '[]')
-      this.hisList = [...hisList]
+      this.hisList = JSON.parse(localStorage.getItem('hisList') || '[]')
       // 去重
       this.hisList = this.hisList.filter(item => {
         if (item !== this.searchValue) {
@@ -218,7 +223,6 @@ export default {
      */
     chooseItem (value) {
       this.searchValue = value
-      // this.myShowWrap = false
       this.search()
     },
     /**
@@ -236,6 +240,15 @@ export default {
     clearValue () {
       this.searchValue = ''
       this.$refs.search.focus()
+    },
+    isShowWrap () {
+      if (this.searchValue) {
+        if (this.suggestList.length) {
+          this.myShowWrap = true
+        }
+      } else {
+        this.myShowWrap = true
+      }
     }
   }
 }
@@ -250,6 +263,7 @@ export default {
   }
 
   .search-icon {
+    display: flex;
     font-family: "iconfont";
     font-style: normal;
     font-weight: normal;
@@ -263,6 +277,7 @@ export default {
   }
 
   .his-icon {
+    display: flex;
     font-family: "iconfont";
     font-style: normal;
     font-weight: normal;
@@ -275,8 +290,10 @@ export default {
     content: "\e83b";
   }
   .clear-icon {
+    display: flex;
     position: absolute;
-    top:2px;
+    top:50%;
+    margin-top: -11px;
     right: 3px;
     font-family: "iconfont";
     font-style: normal;

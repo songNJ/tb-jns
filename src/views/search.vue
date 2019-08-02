@@ -9,7 +9,9 @@
       <SearchItem
         v-for="(item, index) in searchData"
         :key="index"
-        :itemData="item">
+        :itemData="item"
+         @click="$router.push({name:'pagedetail',query:{id:item.id}})"
+        >
       </SearchItem>
     </van-list>
   </div>
@@ -132,6 +134,8 @@ export default {
   .van-list {
     height: calc(100vh - 45px);
     overflow: auto;
+    -webkit-overflow-scrolling:touch;
+    overflow-scrolling:touch;
   }
 }
 </style>

@@ -21,19 +21,19 @@ export default {
         {
           name: '九州缥缈录',
           descript: '姬野受伤，羽然落泪',
-          imgUrl: 'http://liangcang-material.alicdn.com/prod/upload/4255e49ac7434e6f8568eadfe49b9889.jpg?x-oss-process=image/resize,w_1242/format,webp/interlace,1',
+          imgUrl: 'http://liangcang-material.alicdn.com/prod/upload/4255e49ac7434e6f8568eadfe49b9889.jpg',
           url: ''
         },
         {
           name: '请赐我一双翅膀',
           descript: '全城通缉，鞠敬伟出逃',
-          imgUrl: 'http://liangcang-material.alicdn.com/prod/upload/8f38b6098e0240b59906e5aeb0946ad4.jpg?x-oss-process=image/resize,w_1242/format,webp/interlace,1',
+          imgUrl: 'http://liangcang-material.alicdn.com/prod/upload/8f38b6098e0240b59906e5aeb0946ad4.jpg',
           url: ''
         },
         {
           name: '<长安十二时辰>张小敬李必并肩作战',
           descript: '更新至29集',
-          imgUrl: 'http://liangcang-material.alicdn.com/prod/upload/c9fa1013e3304733afcecc595325162f.jpg?x-oss-process=image/resize,w_1242/format,webp/interlace,1',
+          imgUrl: 'http://liangcang-material.alicdn.com/prod/upload/c9fa1013e3304733afcecc595325162f.jpg',
           url: ''
         }
       ]
