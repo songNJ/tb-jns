@@ -144,7 +144,6 @@ export default {
       margin-left: 15px;
       overflow-x: scroll;
       -webkit-overflow-scrolling: touch;
-      overflow-scrolling: touch;
       font-size: 16px;
       &::-webkit-scrollbar-track {
         //    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.1);
@@ -161,6 +160,7 @@ export default {
       }
       li {
         position: relative;
+        flex-shrink: 0;
         width: 32px;
         height: 25px;
         position: relative;
@@ -228,6 +228,7 @@ export default {
 
       li {
         margin: 0 15px;
+        flex-shrink: 0;
         width: 32px;
         height: 39px;
         white-space: nowrap;
