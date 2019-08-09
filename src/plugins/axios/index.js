@@ -4,7 +4,7 @@ import Vue from 'vue'
 
 // 基本参数
 let options = {
-  baseURL: '/api/jns/tb',
+  baseURL: '/api/tb',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8'
@@ -31,7 +31,15 @@ axios.interceptors.response.use(
     return response
   },
   err => {
-    // _config.response.err(err)
+    if (err.response) {
+      switch (err.response.status) {
+        case 401:
+          router.replace({
+            path: 'login',
+            query: { redirect: router.currentRoute.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
+          })
+      }
+    }
     return Promise.reject(err)
   }
 )
@@ -39,16 +47,8 @@ axios.interceptors.response.use(
 function request (method, url, data, config) {
   // 所需请求的参数
   let _data = {
-    requestHeader: {
-      'systemName': '',
-      'version': '',
-      'modelNumber': '',
-      'clentOs': '',
-      'osVersion': '',
-      'osImage': ''
-    },
     params: {
-      // access_token: sessionStorage.getItem('access_token'),
+      access_token: localStorage.getItem('access_token')||'',
       ...data
     }
   }
