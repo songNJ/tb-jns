@@ -14,7 +14,7 @@
           <van-icon class-prefix="his-icon" name="extra" />
         </div>
 
-        <div class="self-box" @click="$router.push({name:'login'})">
+        <div class="self-box" @click="$router.push({name:'personal'})">
           <img src="https://img.alicdn.com/tfs/TB10zdbXL5TBuNjSspmXXaDRVXa-44-44.png" alt="">
         </div>
       </div>

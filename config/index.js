@@ -11,11 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api/jns/tb': {
-        target: 'https://www.easy-mock.com/mock/5d3c257096f5a648a8495f70', // 测试
+      '/api/jns': {
+        target: 'http://localhost:3000/apis', // 测试
         changeOrigin: true,
         pathRewrite: {
-          '^/api/jns/tb': ''
+          '^/api/jns': ''
         }
       }
     },

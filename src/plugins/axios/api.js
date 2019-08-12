@@ -2,8 +2,12 @@
 import axios from './index'
 
 export default {
-  /** 查询订单列表 */
-  queryOrderList: data => axios.post('/mbp-vas/vas/lhs/order/v1/list', data),
-  querySearchList: data => axios.post('/search', data),
-  getHisList: data => axios.post('/fuzzySearch', data)
+
+  getUserInfo:data=>axios.post('/getUserInfo',data),
+  getIndexList:data=>axios.post('/getIndexList',data),
+  getSearchList:data=>axios.post('/getSearchList',data),
+  getIntroList:data=>axios.post('/getSearchList',data),
+  getHistoryList:data=>axios.post('/getHistoryList',data),
+  login:data=>axios.get('/login',data),
+  reg:data=>axios.get('/reg',data),
 }

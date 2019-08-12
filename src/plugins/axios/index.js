@@ -1,10 +1,11 @@
 
 import _axios from 'axios'
 import Vue from 'vue'
+import router from '../../router/index'
 
 // 基本参数
 let options = {
-  baseURL: '/api/tb',
+  baseURL: '/api/jns',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8'
@@ -35,7 +36,7 @@ axios.interceptors.response.use(
       switch (err.response.status) {
         case 401:
           router.replace({
-            path: 'login',
+            name: 'login',
             query: { redirect: router.currentRoute.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
           })
       }
@@ -54,17 +55,17 @@ function request (method, url, data, config) {
   }
 
   // 根据请求方式将请求参数放在不同的地方
-  let _config = { ...config }
-  if (method.toUpperCase() === 'GET') {
-    _config.params = _data
-  } else {
-    _config.data = _data
-  }
+  // let _config = { ...config }
+  // if (method.toUpperCase() === 'GET') {
+  //   _config.params = _data
+  // } else {
+  //   _config.data = _data
+  // }
 
   return axios({
     method,
     url,
-    ..._config
+    ..._data
   }).then(resp => {
     // 判断条件是否符合
     if (resp.data.returnCode === '0') {

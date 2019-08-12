@@ -9,18 +9,18 @@
       <ul>
         <li>
           <label for="username">
-            <input name="username" type="text" placeholder="手机号码" />
+            <input v-model="username" name="username" type="text" placeholder="用户名" />
           </label>
           <van-icon name="cross" size="2" style="margin-right:20px;"></van-icon>
         </li>
         <li>
           <label for="password">
-            <input name="password" type="password" placeholder="动态密码" />
+            <input v-model="password" name="password" type="password" placeholder="动态密码" />
           </label>
           <button class="get-password-button">获取动态密码</button>
         </li>
       </ul>
-      <button class="login-button">登录</button>
+      <button class="login-button" @click="login">登录</button>
       <div>或</div>
       <button class="login-button">账号登录</button>
     </div>
@@ -28,7 +28,25 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      username: '',
+      password: ''
+    }
+  },
+  methods: {
+    login () {
+      let params = {
+        username: this.username,
+        password: this.password
+      }
+      this.$store.dispatch('toLogin', params).then(resp => {
+
+      })
+    }
+  }
+}
 </script>
 
 <style lang="less">

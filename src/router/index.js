@@ -36,6 +36,14 @@ const router = new Router({
       component: () => import('../views/login.vue')
     },
     {
+      path: '/personal',
+      name: 'personal',
+      meta: {
+        title: 'personal'
+      },
+      component: () => import('../views/personal.vue')
+    },
+    {
       path: '/pagedetail',
       name: 'pagedetail',
       meta: {
