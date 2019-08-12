@@ -2,7 +2,7 @@
   <div class="page-detail">
     <Search></Search>
     <div class="video" style="width:100%;">
-      <video src="../assets/video/画.mp4" controls="controls"></video>
+      <!-- <video src="../assets/video/画.mp4" controls="controls"></video> -->
     </div>
     <div class="main-value">
       <div class="title-box">

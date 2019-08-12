@@ -355,7 +355,7 @@ export default {
       border:0;
       width: 100%;
       height: 30px;
-      flex:1;
+      flex: 1;
       margin-left: 15px;
       border-radius: 100px;
       font-family: "Microsoft YaHei",SimHei,helvetica,arial,verdana,tahoma,sans-serif;
