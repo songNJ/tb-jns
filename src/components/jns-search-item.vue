@@ -36,6 +36,7 @@ export default {
 </script>
 <style lang="less">
 .jns-search-item {
+  background-color:#fff;
   box-sizing: border-box;
   padding: 10px;
   display: flex;

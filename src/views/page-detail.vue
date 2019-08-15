@@ -2,7 +2,7 @@
   <div class="page-detail">
     <Search></Search>
     <div class="video" style="width:100%;">
-      <video src="../assets/video/画.mp4" controls="controls"></video>
+      <!-- <video src="../assets/video/画.mp4" controls="controls"></video> -->
     </div>
     <div class="main-value">
       <div class="title-box">
@@ -154,6 +154,7 @@ export default {
   }
 
   .main-value {
+    background-color:#fff;
     box-sizing: border-box;
     padding: 15px 0;
     border-bottom: 1px solid #f5f5f5;
@@ -274,6 +275,7 @@ export default {
     }
   }
   .selector {
+    background-color:#fff;
     border-bottom: 1px solid #f5f5f5;
   }
   .select-title {
@@ -307,6 +309,8 @@ export default {
     }
   }
   .remark-box {
+    background-color:#fff;
+
     .remark-title {
       box-sizing: border-box;
       padding:15px 12px;

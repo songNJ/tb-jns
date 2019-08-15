@@ -1,12 +1,11 @@
 <template>
-  <div class="login">
+  <div class="register">
     <div class="nav">
-      <van-icon name="arrow-left" @click="$router.push({path:'/index'})"></van-icon>
-      <p v-show="!show">手机快捷登陆</p>
-      <p v-show="show">账号登录</p>
+      <van-icon name="arrow-left" @click="goLogin"></van-icon>
+      <p>注册</p>
     </div>
 
-    <div class="content" v-show="show">
+    <div class="content">
       <ul>
         <li>
           <label for="username" style="width:90% ">
@@ -27,57 +26,33 @@
               name="password"
               type="password"
               maxlength="6"
-              placeholder="动态密码"
-              v-model="form.password1"
+              placeholder="验证码"
+              v-model="form.verificationCode"
             />
           </label>
           <button
             :class="{'get-password-button':!disabled,'get-password-button-disable':disabled}"
             :disabled="disabled"
-          >获取动态密码</button>
-        </li>
-      </ul>
-      <button class="login-button">登录</button>
-      <div>或</div>
-      <button class="user-login-button" @click="loginClick">账号登录</button>
-    </div>
-
-    <div class="content" v-show="!show">
-      <ul>
-        <li>
-          <label for="username">
-            <input name="username" type="text" placeholder="手机/邮箱/优酷土豆账号" v-model="form.phone" />
-          </label>
-          <van-icon name="cross" size="2" style="margin-right:20px;" @click="clear"></van-icon>
+          >获取验证码</button>
         </li>
         <li>
-          <label for="password">
+          <label for="username" style="width:100% ">
             <input
-              name="password"
+              name="username"
               type="password"
-              maxlength="16"
-              placeholder="登录密码"
-              v-model="form.password2"
+              placeholder="密码(6-16位字母、数字和符号)"
+              v-model="form.password"
             />
           </label>
-          <button class="get-password-button">忘记密码</button>
         </li>
       </ul>
-      <button class="login-button" @click="login">登录</button>
-      <div>或</div>
-      <button class="user-login-button" @click="loginClick">手机快捷登录</button>
+      <button class="register-button">注册</button>
     </div>
 
     <div class="footer">
-      <div class="thrid-login">
-        <span>1</span>
-        <span>2</span>
-        <span>3</span>
-        <span>4</span>
-      </div>
-      <div class="regist">
-        <span>还没有账号?</span>
-        <a href="#" @click="goRegister">立即注册</a>
+      <div class="loginA">
+        <span>已有账号?</span>
+        <a href="#" @click="goLogin">立即登录</a>
       </div>
     </div>
   </div>
@@ -85,35 +60,18 @@
 
 <script>
 export default {
+  name: 'register',
   data () {
     return {
-      // 控制手机登陆和快捷登陆的切换
-      show: true,
-      // 控制获取动态密码按钮是否能点击
       disabled: true,
       form: {
         phone: '',
-        password1: '',
-        password2: ''
+        verificationCode: '', // 验证码
+        password: ''
       }
     }
   },
   methods: {
-    login () {
-      let params = {
-        username: this.username,
-        password: this.password
-      }
-      this.$store.dispatch('toLogin', params).then(resp => {
-
-      })
-    },
-    // 登录方式切换
-    loginClick () {
-      this.show = !this.show
-      this.form.password1 = ''
-      this.form.password2 = ''
-    },
     // 清除
     clear () {
       this.form.phone = ''
@@ -133,29 +91,25 @@ export default {
         this.disabled = true
       }
     },
-    // 跳转到注册页
-    goRegister () {
-      this.$router.push({ path: '/register' })
+    // 跳转到登录页
+    goLogin () {
+      this.$router.push({ path: '/login' })
     }
   }
 }
 </script>
 
 <style lang="less" scope>
-.login {
+.register {
   display: flex;
-
+  flex-shrink: 0;
   flex-direction: column;
-  // position: relative;
-  // top: 0;
-  // left: 0;
   width: 100%;
   height: 100vh;
   min-height: 450px;
 
   .nav {
     background-color:#fff;
-    flex-shrink: 0;
     height: 50px;
     display: flex;
     justify-content: center;
@@ -223,7 +177,7 @@ export default {
       color: #ccc;
     }
 
-    .login-button {
+    .register-button {
       height: 44px;
       width: 300px;
       border: 1px solid #e9e9e9;
@@ -233,46 +187,17 @@ export default {
       background-color: rgb(28, 132, 218);
       color: #ffffff;
     }
-
-    .user-login-button {
-      height: 44px;
-      width: 300px;
-      border: 1px solid rgb(28, 132, 218);
-      border-radius: 44px;
-      margin-bottom: 10px;
-      font-size: 16px;
-      color: rgb(28, 132, 218);
-      background-color: #ffffff;
-    }
   }
 
   .footer {
     background-color:#fff;
     margin-top: auto;
     width: 100%;
-
-    .thrid-login {
-      width: 80%;
-      margin: 0 auto;
-      text-align: center;
-      display: flex;
-      justify-content: space-around;
-      // border: 1px solid red;
-
-      span {
-        border: 1px solid green;
-        width: 40px;
-        height: 40px;
-        line-height: 40px;
-        border-radius: 50%;
-      }
-    }
-
-    .regist {
+    margin-bottom: 30px;
+    .loginA {
+      display: block;
       text-align: center;
       font-size: 14px;
-      padding-bottom: 50px;
-      margin-top: 20px;
     }
   }
 }

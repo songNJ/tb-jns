@@ -126,6 +126,8 @@ export default {
 </script>
 <style lang="less">
 .jns-nav {
+  background-color:#fff;
+
   img {
     width: 22px;
     align-self: flex-start;

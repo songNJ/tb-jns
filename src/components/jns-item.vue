@@ -27,6 +27,8 @@ export default {
 </script>
 <style lang="less">
 .jns-item {
+  background-color:#fff;
+
   .item-nav {
     box-sizing: border-box;
     display: flex;

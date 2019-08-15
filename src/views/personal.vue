@@ -18,7 +18,19 @@
           </p>
         </div>
       </div>
+
+      <ul class="tab">
+        <li v-for="(item, index) in navList" :key="index" @click="tabValue=index">
+          <span :class="{active:tabValue===index}">{{item}}</span>
+        </li>
+      </ul>
     </div>
+
+    <ul class="content">
+      <li>
+
+      </li>
+    </ul>
   </div>
 </template>
 <script>
@@ -26,11 +38,21 @@ import Search from '@/components/jns-head'
 export default {
   components: {
     Search
+  },
+  data () {
+    return {
+      navList: ['评 论', '视 频'],
+      tabValue: 0
+    }
   }
 }
 </script>
 <style lang="less">
 .personal{
+  .user-head {
+    background-color:#fff;
+  }
+
   .user-bgc {
     height: 140px;
   }
@@ -65,11 +87,43 @@ export default {
       background-position: -22px 0;
       background-size: auto 22px;
     }
-    .user-more{
+    .user-more {
       color: #b6b8b9;
       font-size: 10px;
       margin-top: 3px;
     }
+  }
+  .tab {
+    display: flex;
+    justify-content: center;
+    height: 42px;
+
+    li {
+      text-align: center;
+      height: 42px;
+      line-height: 42px;
+      vertical-align: middle;
+      font-size: 16px;
+      letter-spacing: normal;
+      word-spacing: normal;
+      display: inline-block;
+      width: 24.9%;
+      color: #666666;
+      display: flex;
+      justify-content: center;
+    }
+
+    span {
+      padding: 0 6px;
+    }
+  }
+  .active {
+    color:#2fb3ff;
+    border-bottom: 2px solid #2fb3ff;
+  }
+  .content {
+    background-color:#fff;
+    margin-top: 12px;
   }
 }
 </style>
