@@ -7,11 +7,11 @@
       </div>
 
       <div class="user-info">
-        <img class="user-icon" src="https://static.youku.com/lvip/img/avatar/310/33.png">
+        <img class="user-icon" :src="userInfo.icon">
         <div class="info-more">
           <p class="user-name">
-            <span>啦啦啦初夏</span>
-            <i class="user-gender"></i>
+            <span>{{userInfo.nickname}}</span>
+            <i :class="['user-gender',{'change-gender':[false,true][userInfo.gender]}]"></i>
           </p>
           <p class="user-more">
             <span>永久</span>
@@ -38,6 +38,14 @@ import Search from '@/components/jns-head'
 export default {
   components: {
     Search
+  },
+  mounted () {
+    console.log(this.userInfo)
+  },
+  computed: {
+    userInfo () {
+      return this.$store.state.app.userInfo
+    }
   },
   data () {
     return {
@@ -84,8 +92,11 @@ export default {
       height: 22px;
       width: 22px;
       background: url(//www.iqiyipic.com/common/fix/h5-aura/space-user-icon.png) no-repeat;
-      background-position: -22px 0;
+      background-position: -44px 0;
       background-size: auto 22px;
+    }
+    .change-gender {
+      background-position: -22px 0;
     }
     .user-more {
       color: #b6b8b9;

@@ -2,7 +2,7 @@
   <div class="page-detail">
     <Search></Search>
     <div class="video" style="width:100%;">
-      <!-- <video src="../assets/video/画.mp4" controls="controls"></video> -->
+      <iframe allowfullscreen="true" :src="videoUrl" width="100%" height="210px" allowtransparency="true" frameborder="0" scrolling="no" id="frame"></iframe>
     </div>
     <div class="main-value">
       <div class="title-box">
@@ -129,7 +129,8 @@ export default {
       isDown: '',
       showDetail: false,
       showInp: false,
-      remarkValue: ''
+      remarkValue: '',
+      videoUrl: ''
     }
   },
   methods: {

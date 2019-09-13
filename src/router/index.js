@@ -39,7 +39,8 @@ const router = new Router({
       path: '/personal',
       name: 'personal',
       meta: {
-        title: 'personal'
+        title: 'personal',
+        requiresAuth:true
       },
       component: () => import('../views/personal.vue')
     },
