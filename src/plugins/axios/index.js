@@ -2,6 +2,7 @@
 import _axios from 'axios'
 import Vue from 'vue'
 import router from '../../router/index'
+import store from '../../store/index'
 
 // 基本参数
 let options = {
@@ -46,6 +47,7 @@ axios.interceptors.response.use(
 )
 
 function request (method, url, data, config) {
+  store.commit('SET_LOADING', true)
   // 所需请求的参数
   let _data = {
     params: {
@@ -71,11 +73,12 @@ function request (method, url, data, config) {
     if (resp.data.returnCode === '0') {
       return resp.data
     }
-
     return Promise.reject(new Error(resp.data.errorInfo || '服务器异常，请重试'))
   }).catch(err => {
     Vue.prototype.$toast(err.message)
     return Promise.reject(new Error(err))
+  }).finally(()=>{
+    store.commit('SET_LOADING', false)
   })
 }
 let axiosInstance = {}

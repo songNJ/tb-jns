@@ -1,25 +1,40 @@
 <template>
   <div class="login">
     <div class="nav">
-      <van-icon name="arrow-left" @click="$router.push({path:'/index'})"></van-icon>
+      <van-icon
+        name="arrow-left"
+        @click="$router.push({path:'/index'})"
+      ></van-icon>
       <p v-show="!show">手机快捷登陆</p>
       <p v-show="show">账号登录</p>
     </div>
 
-    <div class="content" v-show="show">
+    <div
+      class="content"
+      v-show="show"
+    >
       <ul>
         <li>
-          <label for="username" style="width:90% ">
+          <label
+            for="username"
+            style="width:90% "
+          >
             <input
               name="username"
-              type="text"
+              type="tel"
               maxlength="11"
               placeholder="手机号码"
-              v-model="form.phone"
+              v-model="form.username"
               @input="chenckPhone"
             />
           </label>
-          <van-icon v-if="form.phone!==''" name="cross" size="2" style="margin:0 20px;" @click="clear"></van-icon>
+          <van-icon
+            v-show="form.username"
+            name="cross"
+            size="2"
+            style="margin:0 20px;"
+            @click="clear"
+          ></van-icon>
         </li>
         <li>
           <label for="password">
@@ -28,7 +43,7 @@
               type="password"
               maxlength="6"
               placeholder="动态密码"
-              v-model="form.password1"
+              v-model="form.password"
             />
           </label>
           <button
@@ -37,18 +52,35 @@
           >获取动态密码</button>
         </li>
       </ul>
-      <button class="login-button">登录</button>
+      <button class="login-button" @click="login(1)">登录</button>
       <div>或</div>
-      <button class="user-login-button" @click="loginClick">账号登录</button>
+      <button
+        class="user-login-button"
+        @click="loginClick"
+      >账号登录</button>
     </div>
 
-    <div class="content" v-show="!show">
+    <div
+      class="content"
+      v-show="!show"
+    >
       <ul>
         <li>
           <label for="username">
-            <input name="username" type="text" placeholder="手机/邮箱/优酷土豆账号" v-model="form.phone" />
+            <input
+              name="username"
+              type="text"
+              placeholder="手机/邮箱/优酷土豆账号"
+              v-model="form.username"
+            />
           </label>
-          <van-icon name="cross" size="2" style="margin-right:20px;" @click="clear"></van-icon>
+          <van-icon
+            v-show="form.username"
+            name="cross"
+            size="2"
+            style="margin-right:20px;"
+            @click="clear"
+          ></van-icon>
         </li>
         <li>
           <label for="password">
@@ -57,15 +89,21 @@
               type="password"
               maxlength="16"
               placeholder="登录密码"
-              v-model="form.password2"
+              v-model="form.password"
             />
           </label>
           <button class="get-password-button">忘记密码</button>
         </li>
       </ul>
-      <button class="login-button" @click="login">登录</button>
+      <button
+        class="login-button"
+        @click="login(2)"
+      >登录</button>
       <div>或</div>
-      <button class="user-login-button" @click="loginClick">手机快捷登录</button>
+      <button
+        class="user-login-button"
+        @click="loginClick"
+      >手机快捷登录</button>
     </div>
 
     <div class="footer">
@@ -77,7 +115,10 @@
       </div>
       <div class="regist">
         <span>还没有账号?</span>
-        <a href="#" @click="goRegister">立即注册</a>
+        <a
+          href="#"
+          @click="goRegister"
+        >立即注册</a>
       </div>
     </div>
   </div>
@@ -91,11 +132,7 @@ export default {
       show: true,
       // 控制获取动态密码按钮是否能点击
       disabled: true,
-      form: {
-        phone: '',
-        password1: '',
-        password2: ''
-      }
+      form: {}
     }
   },
   methods: {
@@ -104,20 +141,16 @@ export default {
         username: this.username,
         password: this.password
       }
-      this.$store.dispatch('toLogin', params).then(resp => {
-
-      })
+      this.$store.dispatch('toLogin', params).then(resp => {})
     },
     // 登录方式切换
     loginClick () {
       this.show = !this.show
-      this.form.password1 = ''
-      this.form.password2 = ''
+      this.form = {}
     },
     // 清除
     clear () {
-      this.form.phone = ''
-      this.disabled = true
+      this.form.username = ''
     },
     // 检查电话号码是否符合规范
     chenckPhone () {
@@ -144,17 +177,13 @@ export default {
 <style lang="less" scope>
 .login {
   display: flex;
-
   flex-direction: column;
-  // position: relative;
-  // top: 0;
-  // left: 0;
   width: 100%;
-  height: 100vh;
-  min-height: 450px;
+  height: 100%;
+  background-color: #fff;
 
   .nav {
-    background-color:#fff;
+    background-color: #fff;
     flex-shrink: 0;
     height: 50px;
     display: flex;
@@ -173,7 +202,7 @@ export default {
   }
 
   .content {
-    background-color:#fff;
+    background-color: #fff;
     margin-top: 25px;
     box-sizing: border-box;
     padding: 0 10%;
@@ -230,7 +259,7 @@ export default {
       border-radius: 44px;
       margin-bottom: 10px;
       font-size: 16px;
-      background-color: rgb(28, 132, 218);
+      background-color: #2692ff;
       color: #ffffff;
     }
 
@@ -247,7 +276,7 @@ export default {
   }
 
   .footer {
-    background-color:#fff;
+    background-color: #fff;
     margin-top: auto;
     width: 100%;
 
